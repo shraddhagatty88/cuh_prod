@@ -9,8 +9,8 @@ module "instance_bastion" {
   display_name            = "${var.customer_label}_bastion"
   vnic_hostname_label     = "${var.customer_label}bastion"
   shape                   = "VM.Standard.E2.1"
-  shape_ocpus             = 2
-  shape_mem               = 16
+  shape_ocpus             = 1
+  shape_mem               = 8
   availability_domain     = 2
   fault_domain            = 1
   compartment_id          = var.compartment_id
