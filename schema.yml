@@ -1,0 +1,85 @@
+title: "OCI Terraform  Configuration "
+description: "Stack to deploy resources in OCI Tenancy"
+stackDescription: "Stack to deploy resources in OCI Tenancy"
+schemaVersion: 1.1.0
+version: "20201125"
+locale: "en"
+
+variableGroups:
+- title: "General Configuration"
+  visible: false
+  variables:
+  - tenancy_ocid
+  - user_ocid
+  - fingerprint
+  - private_key_path
+  - region
+  
+
+- title: "Required Configuration(OpsView and Bastion)"
+  visible: true  
+  variables:
+  - customer_label
+  - compartment_id
+  - subnet_id
+  - vcn
+  
+
+
+variables:
+
+
+  # General Configuration
+  tenancy_ocid:
+    title: "Tenancy ID"
+    description: "The Oracle Cloud Identifier (OCID) for your tenancy"
+    type: string
+    required: true
+    visibile: false
+
+  region:
+    title: "Region"
+    description: "Choose Region where you deploy your application"
+    type: oci:identity:region:name
+    required: true
+    visibile: true
+  
+ 
+
+
+  # Required Configuration(OpsView and Bastion)
+
+  customer_label:
+    title: "customer label"
+    description: "Label used as a prefix for naming resources"
+    type: string
+    required: true
+    visible: true
+
+  compartment_id:
+    title: "Compartment OCID"
+    description: "Choose Comparment where you deploy your instance"
+    type: oci:identity:compartment:id
+    required: true
+    visibile: true
+
+  subnet_id:
+    title: "Subnet OCID"
+    description: "Choose subnet where you deploy your instance"
+    type: oci:core:subnet:id
+    required: true
+    visibile: true
+    dependsOn: 
+      compartmentId: ${compartment_id}
+
+  vcn:
+    title: "VCN ID"
+    description: "Choose vcn for NSG"
+    type: oci:core:vcn:id
+    required: true
+    visibile: true
+    dependsOn: 
+      compartmentId: ${compartment_id}
+
+
+  
