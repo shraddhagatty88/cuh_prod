@@ -14,13 +14,14 @@ variable "region" {}
 variable "customer_label" {}
 variable "compartment_id" {}
 variable "subnet_id" {}
-variable "vcn" {}
-
+variable "compartment_id_db" {
+  
+}
 
 
 
 ###########################################
-#VPN
+#local
 ###########################################
 locals {
 
@@ -29,46 +30,40 @@ locals {
     access = "./files/shrar.pub"
   }
 
-v1_vpns = ["${var.v1_cl_vpn}","${var.v1_cw_vpn}"]
-cust_vpns = ["${var.cust1_vpn}","${var.cust2_vpn}"]
-v1_domains = flatten([var.v1_cl_domain, var.v1_cw_domain])
-cust_domains = flatten([var.cust1_domain, var.cust2_domain])
+  tags = {
+   
+    "Billing.CostCentre"         = ""
+   
+  }
+
+}
+######NSG-DB########
+#DB1
+variable "nsg1_db" {}
+variable "nsg2_db" {}
+variable "nsg3_db" {}
+locals {
+
+nsg_db1 = flatten( [ var.nsg1_db,var.nsg2_db, var.nsg3_db] )
+
+}
+#DB2
+
+variable "nsg1_db2" {}
+variable "nsg2_db2" {}
+variable "nsg3_db2" {}
+locals {
+
+nsg_db2 = flatten( [ var.nsg1_db2,var.nsg2_db2, var.nsg3_db2] )
 
 }
 
-variable "v1_cl_vpn" {}
-variable "v1_cw_vpn" {}
+variable "db_shapes" {}
+variable "db_shape_ocpus" { }
+variable "db_shape_mem" { }
+variable "data_storage_size_in_gb" { }
 
 
-variable "cust1_vpn" {}
-variable "cust2_vpn" {}
-
-variable "v1_cl_domain" {
-  type        = list(string)
-  description = "List of on-premises CIDR blocks allowed to connect to the Landing Zone network via a DRG."
-  default     = []
-}
-variable "v1_cw_domain" {
-  type        = list(string)
-  description = "List of on-premises CIDR blocks allowed to connect to the Landing Zone network via a DRG."
-  default     = []
-}
-
-variable "cust1_domain" {
-  type        = list(string)
-  description = "List of on-premises CIDR blocks allowed to connect to the Landing Zone network via a DRG."
-  default     = []
-}
-variable "cust2_domain" {
-  type        = list(string)
-  description = "List of on-premises CIDR blocks allowed to connect to the Landing Zone network via a DRG."
-  default     = []
-}
-
-variable "access" {
-
-  type        = list(string)
-  description = "List of access IPs allowed to connect "
-  default     = []
-
-}
+#SSH Keys
+####################################
+variable "ssh_key_db" {}

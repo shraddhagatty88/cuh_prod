@@ -2,7 +2,7 @@
 ############################################################################
 # Instance - V1 Bastion:
 ############################################################################
-
+/*
 module "instance_bastion" {
   source                  = "./modules/core_instance"
   tenancy_id              = var.tenancy_ocid
@@ -25,3 +25,4 @@ module "instance_bastion" {
   #defined_tags            = local.tags
 }
 ############################################################################
+*/
