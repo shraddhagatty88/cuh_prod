@@ -1,31 +1,3 @@
-############################################################################
-# DB System:
-#############################################################################
-/*
-module "db-system-db1" {
-  source                         = "./modules/db-system"
-  availability_domain            = lookup(data.oci_identity_availability_domains.ads.availability_domains[1],"name")
-  compartment_id                 = data.terraform_remote_state.common_services.outputs.nprd_services_compartment_id
-  subnet_id                      = data.terraform_remote_state.common_services.outputs.sub_db_id
-  db_edition                     = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
-  character_set                  = "UTF8"
-  db_workload                    = "OLTP"
-  db_ncharacter_set              = "AL16UTF16"
-  db_name                        = "CDBDEV"
-  pdb_name                       = "DEV"
-  db_version                     = "19.11.0.0"
-  db_shape                       = "VM.Standard2.2"
-  ssh_public_keys                = file(local.ssh_keys["access"])
-  data_storage_size_in_gb        = "512"
-  hostname                       = "GMPDEVDB"
-  display_name                   = "GMPDEVDB"
-  defined_tags                   = local.tags
-  network_sec_groups             = local.nsg_db
-  create_data_guard              = false
-}
-
-############################################################################
-*/
 
 module "instance_test_db1" {
   source                  = "./modules/core_instance"
@@ -56,7 +28,7 @@ module "instance_test_ebs_db1_VG01" {
   source              = "./modules/core_volume"
   tenancy_id          = var.tenancy_ocid
   volume_display_name = "ociebsdb_VG01"
-  availability_domain = 2
+  availability_domain = module.instance_test_db1.core_instance_ad[0]
   compartment_id      = var.compartment_id_db
   backup_policy       = "silver"
   size_in_gbs         = 550
@@ -82,7 +54,7 @@ module "instance_test_ebs_db1_VG02" {
   source              = "./modules/core_volume"
   tenancy_id          = var.tenancy_ocid
   volume_display_name = "ociebsdb_VG02"
-  availability_domain = 2
+  availability_domain = module.instance_test_db1.core_instance_ad[0]
   compartment_id      = var.compartment_id_db
   backup_policy       = "silver"
   size_in_gbs         = 50
@@ -105,7 +77,7 @@ module "instance_test_ebs_db1_VG03" {
   source              = "./modules/core_volume"
   tenancy_id          = var.tenancy_ocid
   volume_display_name = "ociebsdb_VG03"
-  availability_domain = 2
+  availability_domain = module.instance_test_db1.core_instance_ad[0]
   compartment_id      = var.compartment_id_db
   backup_policy       = "silver"
   size_in_gbs         = 300
