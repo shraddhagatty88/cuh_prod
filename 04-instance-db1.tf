@@ -59,7 +59,7 @@ module "instance_test_ebs_db1_VG01" {
   availability_domain = 2
   compartment_id      = var.compartment_id_db
   backup_policy       = "silver"
-  size_in_gbs         = 500
+  size_in_gbs         = 550
   defined_tags        = local.tags
   
 }
@@ -94,6 +94,29 @@ resource "oci_core_volume_attachment" "instance_test_ebs_db1_VG02_attach" {
   instance_id     = module.instance_test_db1.core_instance_ids[0]
   volume_id       = module.instance_test_ebs_db1_VG02.core_volume_ids[0]
   device          = "/dev/oracleoci/oraclevdc"
+  attachment_type = "paravirtualized"
+}
+
+############################################################################
+# VG03
+
+
+module "instance_test_ebs_db1_VG03" {
+  source              = "./modules/core_volume"
+  tenancy_id          = var.tenancy_ocid
+  volume_display_name = "ociebsdb_VG03"
+  availability_domain = 2
+  compartment_id      = var.compartment_id_db
+  backup_policy       = "silver"
+  size_in_gbs         = 300
+  defined_tags        = local.tags
+  
+}
+
+resource "oci_core_volume_attachment" "instance_test_ebs_db1_VG03_attach" {
+  instance_id     = module.instance_test_db1.core_instance_ids[0]
+  volume_id       = module.instance_test_ebs_db1_VG03.core_volume_ids[0]
+  device          = "/dev/oracleoci/oraclevdd"
   attachment_type = "paravirtualized"
 }
 
